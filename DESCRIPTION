@@ -1,0 +1,27 @@
+Package: optimalFlow
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Hristo Inouzhe
+Maintainer: Hristo Inouzhe <hristo.inouzhe@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+Depends:
+  dplyr,
+  optimalFlowData,
+  rlang (>= 0.4.0)
+Imports:
+  transport,
+  parallel,
+  Rfast,
+  robustbase,
+  dbscan,
+  randomForest,
+  foreach,
+  graphics,
+  doParallel,
+  stats
+biocViews: Software, FlowCytometry, Technology

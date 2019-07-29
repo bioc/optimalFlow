@@ -1,0 +1,9 @@
+exportPattern("^[[:alpha:]]+")
+import(dplyr)
+importFrom(foreach, "%dopar%", "%:%")
+import(optimalFlowData)
+import(rlang)
+importFrom("stats", "as.dist", "cov", "cutree", "hclust",
+             "mahalanobis", "predict", "runif")
+
+
