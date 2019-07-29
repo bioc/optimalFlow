@@ -39,13 +39,13 @@ optimalFlowClassification <- function(X, database, templates, consensus.method =
   if(initial.method == "unsupervized"){
     stop("unsupervized initialization is not yet implemented.")
   } else{
-    if(length(templates) < cl.paral){
-      n.cores = length(templates)
+    if(length(templates$templates) < cl.paral){
+      n.cores = length(templates$templates)
     } else{
       n.cores = cl.paral
     }
     if (op.syst == "unix"){
-      tclust.results = parallel::mclapply(templates,
+      tclust.results = parallel::mclapply(templates$templates,
                                 function(template, alpha.tclust, restr.factor.tclust){
                                   initial.weights = unlist(lapply(template, function(x) x$weight))
                                   initial.means = matrix(unlist(lapply(template, function(x) x$mean)), ncol = length(initial.weights), byrow = FALSE)
@@ -66,7 +66,7 @@ optimalFlowClassification <- function(X, database, templates, consensus.method =
                                 alpha.tclust = alpha.tclust, restr.factor.tclust = restr.factor.tclust, mc.cores = n.cores)
     } else{
       cl <- parallel::makePSOCKcluster(n.cores)
-      tclust.results = parallel::parLapply(cl, templates,
+      tclust.results = parallel::parLapply(cl, templates$templates,
                                 function(template, alpha.tclust, restr.factor.tclust){
                                   initial.weights = unlist(lapply(template, function(x) x$weight))
                                   initial.means = matrix(unlist(lapply(template, function(x) x$mean)), ncol = length(initial.weights), byrow = FALSE)
@@ -105,10 +105,10 @@ optimalFlowClassification <- function(X, database, templates, consensus.method =
                            alpha = alpha.cov)
   data.elliptical = data.elliptical[!is.na(data.elliptical)]
 
-  similarity.distances = optimalFlow::costWasserMatchingEllipse(data.elliptical, templates, equal.weights.template)
+  similarity.distances = optimalFlow::costWasserMatchingEllipse(data.elliptical, templates$templates, equal.weights.template)
   print(similarity.distances)
   assigned.template.index = which.min(similarity.distances)
-  assigned.template = templates[[assigned.template.index]]
+  assigned.template = templates$templates[[assigned.template.index]]
 
   sys.time.step2.1 = Sys.time()
   time.dif.2 = difftime(sys.time.step2.1, sys.time.step2.0)
@@ -193,7 +193,7 @@ optimalFlowClassification <- function(X, database, templates, consensus.method =
                      assigned.template.index = assigned.template.index))
 
       } else{
-
+        cytos.cluster = templates$clustering
         vote = optimalFlow::voteLabelTransfer(type = cost.function, test.partition.ellipse = data.elliptical, training.cytometries.barycenter =
                                    assigned.template, test = 1, op.syst = op.syst,
                                    cl.paral = 1, equal.weights = equal.weights.voting)
