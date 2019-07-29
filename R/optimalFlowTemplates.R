@@ -28,7 +28,6 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
   }
   if(hclust.method %in% c("hdbscan", "dbscan")){
     minPts = as.integer(minPts)
-    eps = as.double(eps)
     if(is.na(minPts) | is.na(eps)){
       stop("minPts or eps not well defined.")
     }
@@ -54,8 +53,8 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
   } else{
     if (consensus.method == "hierarchical"){
       consensus.minPts = as.integer(consensus.minPts)
-      consensus.eps = as.double(consensus.eps)
-      if(is.na(consensus.minPts) | is.na(consensus.eps)){
+      # consensus.eps = as.double(consensus.eps)
+      if(is.na(consensus.minPts)){ #| is.na(consensus.eps)
         stop("consensus.minPts or consensus.eps not well defined.")
       }
     }
@@ -270,7 +269,7 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
             } else{
               n.cores = cl.paral
             }
-            print(length(pooled.clustered.cytometries[[as.character(i)]]))
+            # print(length(pooled.clustered.cytometries[[as.character(i)]]))
             if(op.syst == "unix"){
               k.barycenter.list = parallel::mclapply(1:bar.repetitions, optimalFlow::wassersteinKBarycenter, k = barycenters.number, alpha = alpha.bar,
                                                      initialization = "plus-plus", pooled.clustered.cytometries[[as.character(i)]],
@@ -285,11 +284,11 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
             if(min(unlist(wasser.var)) == Inf){
               stop("All executions of k-barycenter were unsuccesfull")
             } else{
-              print(unlist(wasser.var))
+              # print(unlist(wasser.var))
               k.barycenter = k.barycenter.list[[which.min(wasser.var)]]$wasserstein.k.barycenter
               template.partition = k.barycenter$cluster
               template.partition.labels = sort(unique(template.partition))
-              print(template.partition)
+              # print(template.partition)
               if( length(which(template.partition.labels == 0)) > 0){
                 template.partition.labels = template.partition.labels[-1]
               }
