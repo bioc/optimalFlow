@@ -26,8 +26,9 @@ A list for the votes on each cell.
 %% ...
 }
 \examples{
-vote.0 = list("1" = data.frame(cell = c(1,2), "compound.proportion" = c(0.7,0.3), "simple.proportion"= c(0.7,0.3)),
-"2" = data.frame(cell = c(1,2), "compound.proportion" = c(0.3,0.7), "simple.proportion"= c(0.3,0.7)))
+vote.0 = list("1" = data.frame(cell = c(1,2), "compound.proportion" = c(0.7,0.3),
+"simple.proportion"= c(0.7,0.3)), "2" = data.frame(cell = c(1,2),
+"compound.proportion" = c(0.3,0.7), "simple.proportion"= c(0.3,0.7)))
 vote.1.1 = t(c(0.8,0.2))
 names(vote.1.1) = c("A","B")
 vote.1.2 = t(c(0.2,0.8))

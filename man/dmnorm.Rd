@@ -33,7 +33,6 @@ The value of the multivariate normal with mean mu and covariance sigma at the po
 
 \examples{
 ##	Multivariate normal density
-##	dmnorm <- function(X,mu,sigma) ((2*pi)^(-length(mu)/2))*(det(sigma)^(-1/2))*exp(-0.5*mahalanobis(X,mu,sigma))
 ##	Gives Multivariate normal density values for given  mu  and sigma
 x=rbind(matrix(rnorm(100),ncol=2),matrix(rnorm(100)+2,ncol=2),matrix(rnorm(100)+4,ncol=2))
 dmnorm (X=x,mu=c(0,0),sigma=diag(2))

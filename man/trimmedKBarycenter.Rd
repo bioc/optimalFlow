@@ -30,7 +30,8 @@ trimmedKBarycenter(k, alpha0, type.ini = "rnd", reps.list)
 %% ...
 }
 \examples{
-normals = list(list(mean = c(1,1), cov = diag(2,2)), list(mean = c(1,1), cov = diag(1,2)), list(mean = c(3,3), cov = diag(1,2)))
+normals = list(list(mean = c(1,1), cov = diag(2,2)), list(mean = c(1,1),
+cov = diag(1,2)), list(mean = c(3,3), cov = diag(1,2)))
 trimmedKBarycenter(2, 0, "rnd", normals)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

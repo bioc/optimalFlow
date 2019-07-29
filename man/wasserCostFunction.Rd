@@ -29,27 +29,44 @@ A similarity distance.
 
 \examples{
 
-database = list(as.data.frame(Cytometry2)[which(match(Cytometry2$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry3)[which(match(Cytometry3$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry4)[which(match(Cytometry4$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry5)[which(match(Cytometry5$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry7)[which(match(Cytometry7$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry8)[which(match(Cytometry8$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry9)[which(match(Cytometry9$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry12)[which(match(Cytometry12$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry13)[which(match(Cytometry13$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry14)[which(match(Cytometry14$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry15)[which(match(Cytometry15$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry16)[which(match(Cytometry16$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry17)[which(match(Cytometry17$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry19)[which(match(Cytometry19$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry21)[which(match(Cytometry21$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),])
+database = list(as.data.frame(Cytometry2)[which(match(Cytometry2$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry3)[which(match(Cytometry3$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry4)[which(match(Cytometry4$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry5)[which(match(Cytometry5$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry7)[which(match(Cytometry7$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry8)[which(match(Cytometry8$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry9)[which(match(Cytometry9$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry12)[which(match(Cytometry12$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry13)[which(match(Cytometry13$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry14)[which(match(Cytometry14$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry15)[which(match(Cytometry15$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry16)[which(match(Cytometry16$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry17)[which(match(Cytometry17$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry19)[which(match(Cytometry19$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry21)[which(match(Cytometry21$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),])
 
 
-templates.optimalFlow = optimalFlowTemplates(database = database, templates.number = 5, cl.paral = 1)
+templates.optimalFlow = optimalFlowTemplates(database = database, templates.number = 5,
+cl.paral = 1)
 
 
-print(wasserCostFunction(1,2,list(templates.optimalFlow$database.elliptical[[1]], templates.optimalFlow$database.elliptical[[2]])))
+print(wasserCostFunction(1,2,list(templates.optimalFlow$database.elliptical[[1]],
+templates.optimalFlow$database.elliptical[[2]])))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -29,10 +29,11 @@ wassersteinKBarycenter(i = 1, k, alpha = 0, initialization = "rnd", pooled.clust
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+E del Barrio, H Inouzhe, JM Loubes, C Matran and A Mayo-Iscar. (2019) optimalFlow: Optimal-transport approach to flow cytometry gating and population matching. arXiv:1907.08006
 }
 \examples{
-normals = list(list(mean = c(1,1), cov = diag(2,2)), list(mean = c(1,1), cov = diag(1,2)), list(mean = c(3,3), cov = diag(1,2)))
+normals = list(list(mean = c(1,1), cov = diag(2,2)),
+list(mean = c(1,1), cov = diag(1,2)), list(mean = c(3,3), cov = diag(1,2)))
 wkb = wassersteinKBarycenter(1, 2, 0, "rnd", normals)
 print(wkb$wasserstein.var)
 print(wkb$wasserstein.k.barycente)

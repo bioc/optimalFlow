@@ -4,7 +4,7 @@
 \title{calcobj
 %%  ~~function to do ... ~~
 }
-\description{
+\description{Calculates tclust's objective function value.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -12,20 +12,18 @@ calcobj(X, iter, pa)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{X}{
+  \item{X}{Points in a multidimiensional space.
 %%     ~~Describe \code{X} here~~
 }
-  \item{iter}{
+  \item{iter}{Current solution obtained by tclust_.
 %%     ~~Describe \code{iter} here~~
 }
-  \item{pa}{
+  \item{pa}{Parameters for using in tclust_.
 %%     ~~Describe \code{pa} here~~
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
+An object used internally in tclust_ with the the value for tclust's objective function.
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}
@@ -33,57 +31,26 @@ calcobj(X, iter, pa)
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+Fritz, H., Garcia-Escudero, L. A., & Mayo-Iscar, A. (2012). tclust: An r package for a trimming approach to cluster analysis. Journal of Statistical Software, 47(12), 1-26.
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+x=rbind(matrix(rnorm(100),ncol=2),matrix(rnorm(100)+2,ncol=2),
+matrix(rnorm(100)+4,ncol=2))
+output3=tclust_( X=x , K=3 , alpha = 0.05 , niter = 20 ,Ksteps=10 ,
+equal.weights = FALSE, restr.cov.value = "eigen" ,
+maxfact_e = 5 , zero.tol = 1e-16 ,  trace = 0 ,
+sol_ini_p = FALSE ,   sol_ini=NA )
 
-## The function is currently defined as
-function (X, iter, pa)
-{
-    ww_m = matrix(0, nrow = pa$n, ncol = 1)
-    ww_h = matrix(0, nrow = pa$n, ncol = 1)
-    ww_f = matrix(0, nrow = pa$n, ncol = 1)
-    for (k in 1:pa$K) {
-        if (pa$tk == FALSE)
-            w_m = iter$cw[k] * dmnorm(X, iter$center[k, ], ssclmat(iter$sigma,
-                k))
-        if (pa$tk == TRUE)
-            w_m = iter$cw[k] * dmnorm_tk(X, iter$center[k, ],
-                iter$lambda[k])
-        ww_m = w_m * (w_m >= 0) + ww_m
-        w_h = w_m * (iter$assig == k)
-        ww_h = w_h * (w_h >= 0) + ww_h
-        w_f = iter$z_ij[, k] * log(w_m * (w_m >= 0) + 1 * (iter$z_ij[,
-            k] == 0))
-        ww_f = w_f + ww_f
-    }
-    ww_m = ww_m * (ww_m >= 0)
-    ww_h = ww_h * (ww_h >= 0)
-    if (pa$opt == "MIXTURE")
-        iter$obj <- sum(log(ww_m[iter$assig > 0]))
-    if (pa$opt == "HARD")
-        iter$obj <- sum(log(ww_h[iter$assig > 0]))
-    if (pa$opt == "FUZZY")
-        iter$obj <- sum(ww_f[iter$assig > 0])
-    return(iter)
-  }
+iter = output3$iter
+pa = output3$pa
+
+## calcobj  obtains the objective function value for data,
+## an input parameters and a solution, including assigment and parameters
+
+iter_ = calcobj (X=x, iter=iter, pa=pa)
+iter_$obj
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+%\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

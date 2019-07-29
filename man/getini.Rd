@@ -29,8 +29,8 @@ A vector of length K indicating indices of the points to be considered for initi
 }
 
 \examples{
-#EXAMPLE getini
-#gives a random vector from a K dimensional multinomial  (no.trim, pi.ini) with pi.ini a random vector build with random values from uniform (0,1)
+## gives a random vector from a K dimensional multinomial(no.trim, pi.ini)
+## with pi.ini a random vector build with random values from uniform (0,1)
 v=getini  (K=3, no.trim=100)
 v
 }
