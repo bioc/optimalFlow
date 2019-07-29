@@ -448,7 +448,8 @@ tclust_H = function(x, k = 3, alpha = 0.05, nstart = 50, iter.max = 20, restr = 
 
 # #####
 # #####EXAMPLE tclust_H
-# ##### tclust_H if the function which gives clusters to the user. The main role of this function is to be an interface with the user using labels for the parameters similar to tclust function in tclust package
+# ## tclust_H if the function which gives clusters to the user. The main role of this function is
+# ##to be an interface with the user using labels for the parameters similar to tclust function in tclust package
 #
 # x=rbind(matrix(rnorm(100),ncol=2),matrix(rnorm(100)+2,ncol=2),matrix(rnorm(100)+4,ncol=2))
 #

@@ -8,10 +8,11 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-optimalFlowClassification(X, database, templates, consensus.method = "pooling", cov.estimation = "standard", alpha.cov = 0.85,
-                                      initial.method = "supervized", alpha.tclust = 0, restr.factor.tclust = 1000,
-                                      classif.method = "qda", qda.bar = TRUE, cost.function = "points", cl.paral = 1,
-                                      equal.weights.voting = TRUE, equal.weights.template = TRUE)
+optimalFlowClassification(X, database, templates, consensus.method = "pooling",
+cov.estimation = "standard", alpha.cov = 0.85,initial.method = "supervized",
+alpha.tclust = 0, restr.factor.tclust = 1000,classif.method = "qda",
+qda.bar = TRUE, cost.function = "points", cl.paral = 1,
+equal.weights.voting = TRUE, equal.weights.template = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,9 +33,6 @@ optimalFlowClassification(X, database, templates, consensus.method = "pooling", 
    \item{equal.weights.template}{If True, weights assigned to every cluster in a partion are uniform (1/number of clusters). If False, weights assigned to clusters are the proportions of points in every cluster compared to the total amount of points in the partition.}
 %%     ~~Describe \code{x} here~~
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
@@ -45,46 +43,53 @@ optimalFlowClassification(X, database, templates, consensus.method = "pooling", 
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+E del Barrio, H Inouzhe, JM Loubes, C Matran and A Mayo-Iscar. (2019) optimalFlow: Optimal-transport approach to flow cytometry gating and population matching. arXiv:1907.08006
 }
 \examples{
-database = list(as.data.frame(Cytometry2)[which(match(Cytometry2$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry3)[which(match(Cytometry3$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry4)[which(match(Cytometry4$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry5)[which(match(Cytometry5$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry7)[which(match(Cytometry7$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry8)[which(match(Cytometry8$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry9)[which(match(Cytometry9$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry12)[which(match(Cytometry12$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry13)[which(match(Cytometry13$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry14)[which(match(Cytometry14$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry15)[which(match(Cytometry15$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry16)[which(match(Cytometry16$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry17)[which(match(Cytometry17$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry19)[which(match(Cytometry19$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
-as.data.frame(Cytometry21)[which(match(Cytometry21$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),])
+database = list(as.data.frame(Cytometry2)[which(match(Cytometry2$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry3)[which(match(Cytometry3$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry4)[which(match(Cytometry4$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry5)[which(match(Cytometry5$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry7)[which(match(Cytometry7$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry8)[which(match(Cytometry8$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry9)[which(match(Cytometry9$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry12)[which(match(Cytometry12$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry13)[which(match(Cytometry13$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry14)[which(match(Cytometry14$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry15)[which(match(Cytometry15$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry16)[which(match(Cytometry16$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry17)[which(match(Cytometry17$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry19)[which(match(Cytometry19$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+as.data.frame(Cytometry21)[which(match(Cytometry21$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),])
 
 
-templates.optimalFlow = optimalFlowTemplates(database = database, templates.number = 5, cl.paral = 1)
+templates.optimalFlow = optimalFlowTemplates(database = database, templates.number = 5,
+cl.paral = 1)
 
 
-classification.optimalFlow = optimalFlowClassification(as.data.frame(Cytometry1)[which(match(Cytometry1$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0), 1:10], database, templates.optimalFlow$templates,
-                                                       cl.paral = 1)
+classification.optimalFlow = optimalFlowClassification(as.data.frame(Cytometry1)[
+which(match(Cytometry1$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa",
+"TCRgd-"), nomatch = 0)>0), 1:10], database, templates.optimalFlow$templates, cl.paral = 1)
 
 
-scoreF1.optimalFlow = optimalFlow::f1Score(classification.optimalFlow$cluster, as.data.frame(Cytometry1)[which(match(Cytometry1$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),], noise.types)
+scoreF1.optimalFlow = optimalFlow::f1Score(classification.optimalFlow$cluster,
+as.data.frame(Cytometry1)[which(match(Cytometry1$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),], noise.types)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

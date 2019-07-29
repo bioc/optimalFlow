@@ -4,11 +4,12 @@
 \title{labelTransferEllipse
 %%  ~~function to do ... ~~
 }
-\description{
+\description{Label transfer between a test partition and a training partitions viewed as a mixture of gaussians.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-labelTransferEllipse(i, test.cytometry.ellipses, training.cytometries.barycenter, equal.weights = FALSE)
+labelTransferEllipse(i, test.cytometry.ellipses,
+training.cytometries.barycenter, equal.weights = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,11 +28,13 @@ A fuzzy relabeling consistent of a transportation plan.
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+E del Barrio, H Inouzhe, JM Loubes, C Matran and A Mayo-Iscar. (2019) optimalFlow: Optimal-transport approach to flow cytometry gating and population matching. arXiv:1907.08006
 }
 \examples{
-partition1 = list(list(mean = c(1,1), cov = diag(1,2), weight = 0.5, type = "1"), list(mean = c(-1,-1), cov = diag(1,2), weight = 0.5, type = "2"))
-partition2 = list(list(mean = c(1,1), cov = diag(1,2), weight = 0.5, type = "a"), list(mean = c(-1,-1), cov = diag(1,2), weight = 0.5, type = "b"))
+partition1 = list(list(mean = c(1,1), cov = diag(1,2), weight = 0.5, type = "1"),
+list(mean = c(-1,-1), cov = diag(1,2), weight = 0.5, type = "2"))
+partition2 = list(list(mean = c(1,1), cov = diag(1,2), weight = 0.5, type = "a"),
+list(mean = c(-1,-1), cov = diag(1,2), weight = 0.5, type = "b"))
 labelTransferEllipse(1, partition2, partition1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

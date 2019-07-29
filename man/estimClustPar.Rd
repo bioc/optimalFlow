@@ -33,8 +33,7 @@ estimClustPar(X, iter, pa)
 Fritz, H., Garcia-Escudero, L. A., & Mayo-Iscar, A. (2012). tclust: An r package for a trimming approach to cluster analysis. Journal of Statistical Software, 47(12), 1-26.
 }
 \examples{
-######EXAMPLE tclust_
-##### tclust_ is the function which obtain the clusters for tclust_H function
+## tclust_ is the function which obtain the clusters for tclust_H function
 
 x=rbind(matrix(rnorm(100),ncol=2),matrix(rnorm(100)+2,ncol=2),matrix(rnorm(100)+4,ncol=2))
 output3=tclust_( X=x , K=3 , alpha = 0.05 , niter = 20 , Ksteps=10 ,
@@ -47,7 +46,8 @@ sol_ini_p = FALSE ,   sol_ini=NA )
 iter=output3$iter
 pa=output3$pa
 
-##### estimClustPar  obtains the best values for the parameters, given data, input parameters and an assigment.
+## estimClustPar  obtains the best values for the parameters,
+##given data, input parameters and an assigment.
 output4=estimClustPar (X=x, iter, pa)
 output4$center
 output4$sigma

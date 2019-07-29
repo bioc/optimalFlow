@@ -27,7 +27,7 @@ costWasserMatchingEllipse(test.cytometry, training.cytometries, equal.weights = 
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+E del Barrio, H Inouzhe, JM Loubes, C Matran and A Mayo-Iscar. (2019) optimalFlow: Optimal-transport approach to flow cytometry gating and population matching. arXiv:1907.08006
 }
 \examples{
 partition1 = list(list(mean = c(1,1), cov = diag(1,2), weight = 0.5, type = "1"),

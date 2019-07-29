@@ -27,7 +27,8 @@ A vector with the index of which element in centers is closest to each element i
 %% ...
 }
 \examples{
-normals = list(list(mean = c(1,1), cov = diag(2,2)), list(mean = c(1,1), cov = diag(1,2)), list(mean = c(3,3), cov = diag(1,2)))
+normals = list(list(mean = c(1,1), cov = diag(2,2)),
+list(mean = c(1,1), cov = diag(1,2)), list(mean = c(3,3), cov = diag(1,2)))
 k_barycenter = kcenter(normals, 2, c(1,1,2))$kcenters
 trimmedMinDist(normals,k_barycenter, 0)
 }

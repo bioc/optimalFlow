@@ -26,10 +26,11 @@ A matrix where the first row is the F1 score, the seconr row is the Precision an
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+E del Barrio, H Inouzhe, JM Loubes, C Matran and A Mayo-Iscar. (2019) optimalFlow: Optimal-transport approach to flow cytometry gating and population matching. arXiv:1907.08006
 }
 \examples{
-f1Score(dplyr::pull(Cytometry3[c(sample(1:250,250),251:(dim(Cytometry3)[1])),],11),Cytometry3, noise.types)
+f1Score(dplyr::pull(Cytometry3[c(sample(1:250,250),251:(dim(Cytometry3)[1])),],11),
+Cytometry3, noise.types)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

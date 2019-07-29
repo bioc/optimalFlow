@@ -29,8 +29,10 @@ estimationCellBarycenter(cell, cytometries)
 %% ...
 }
 \examples{
-partition1 = list(list(mean = c(1,1), cov = diag(1,2), weight = 0.5, type = "1"), list(mean = c(-1,-1), cov = diag(1,2), weight = 0.5, type = "2"))
-partition2 = list(list(mean = c(1,-1), cov = diag(1,2), weight = 0.5, type = "1"), list(mean = c(-1,1), cov = diag(1,2), weight = 0.5, type = "2"))
+partition1 = list(list(mean = c(1,1), cov = diag(1,2), weight = 0.5, type = "1"),
+list(mean = c(-1,-1), cov = diag(1,2), weight = 0.5, type = "2"))
+partition2 = list(list(mean = c(1,-1), cov = diag(1,2), weight = 0.5, type = "1"),
+list(mean = c(-1,1), cov = diag(1,2), weight = 0.5, type = "2"))
 cytometries = list(partition1, partition2)
 estimationCellBarycenter("1",cytometries)
 }

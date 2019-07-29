@@ -7,9 +7,9 @@
 \description{A wrapper for doing either labelTransfer or labelTransferEllipse
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
-\usage{voteLabelTransfer(type = "points", test.partition, test.cytometry, test.partition.ellipse, training.cytometries,
-                             training.cytometries.barycenter,
-                             test = 1, op.syst, cl.paral = 1, equal.weights = FALSE)
+\usage{voteLabelTransfer(type = "points", test.partition, test.cytometry,
+test.partition.ellipse, training.cytometries,training.cytometries.barycenter,
+test = 1, op.syst, cl.paral = 1, equal.weights = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,9 +35,11 @@
 %% ...
 }
 \examples{
-data.example = data.frame(v1 = c(rnorm(50,2,1), rnorm(50,-2,1)), v2 = c(rnorm(50,2,1), rnorm(50,-2,1)), id = c(rep(0,50), rep(1,50)))
+data.example = data.frame(v1 = c(rnorm(50,2,1), rnorm(50,-2,1)),
+v2 = c(rnorm(50,2,1), rnorm(50,-2,1)), id = c(rep(0,50), rep(1,50)))
 test.labels = c(rep("a",50), rep("b", 50))
-voteLabelTransfer(test.partition = test.labels, test.cytometry = data.example[,1:2], training.cytometries = list(data.example), op.syst = .Platform$OS.type)$final.vote[[1]]
+voteLabelTransfer(test.partition = test.labels, test.cytometry = data.example[,1:2],
+training.cytometries = list(data.example), op.syst = .Platform$OS.type)$final.vote[[1]]
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
