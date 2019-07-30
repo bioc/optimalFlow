@@ -84,7 +84,7 @@ cl.paral = 1)
 
 classification.optimalFlow = optimalFlowClassification(as.data.frame(Cytometry1)[
 which(match(Cytometry1$`Population ID (name)`,c("Monocytes", "CD4+CD8-", "Mature SIg Kappa",
-"TCRgd-"), nomatch = 0)>0), 1:10], database, templates.optimalFlow$templates, cl.paral = 1)
+"TCRgd-"), nomatch = 0)>0), 1:10], database, templates.optimalFlow, cl.paral = 1)
 
 
 scoreF1.optimalFlow = optimalFlow::f1Score(classification.optimalFlow$cluster,

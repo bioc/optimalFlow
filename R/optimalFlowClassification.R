@@ -138,11 +138,12 @@ optimalFlowClassification <- function(X, database, templates, consensus.method =
       qda.assignation = parallel::parLapply(cl, assigned.template, optimalFlow::qdaClassification, data = X)
       parallel::stopCluster(cl)
     }
-    qda.assignation = matrix(unlist(qda.assignation), ncol = length(assigned.template), byrow = FALSE)
+    qda.assignation = qda.assignation[!is.na(qda.assignation)]
+    qda.assignation = matrix(unlist(qda.assignation), ncol = length(qda.assignation), byrow = FALSE)
     qda.groups = Rfast::rowMaxs(qda.assignation)
     unique.qda.groups = sort(unique(qda.groups))
     qda.groups = factor(qda.groups)
-    levels(qda.groups) = unlist(lapply(assigned.template, function(x) x$type))[unique.qda.groups]
+    levels(qda.groups) = unlist(lapply(assigned.template, function(x) x$type))[!is.na(qda.assignation)]
 
     if (consensus.method == "hierarchical" |  consensus.method == "k-barycenter"){
       vote = list()
@@ -241,11 +242,12 @@ optimalFlowClassification <- function(X, database, templates, consensus.method =
           qda.assignation = parallel::parLapply(cl, assigned.training.cytometry, optimalFlow::qdaClassification, data = X)
           parallel::stopCluster(cl)
         }
-        qda.assignation = matrix(unlist(qda.assignation), ncol = length(assigned.training.cytometry), byrow = FALSE)
+        qda.assignation = qda.assignation[!is.na(qda.assignation)]
+        qda.assignation = matrix(unlist(qda.assignation), ncol = length(qda.assignation), byrow = FALSE)
         qda.groups = Rfast::rowMaxs(qda.assignation)
         unique.qda.groups = sort(unique(qda.groups))
         qda.groups = factor(qda.groups)
-        levels(qda.groups) = unlist(lapply(assigned.training.cytometry, function(x) x$type))[unique.qda.groups]
+        levels(qda.groups) = unlist(lapply(assigned.training.cytometry, function(x) x$type))[!is.na(qda.assignation)]
 
         sys.time.step3.1 = Sys.time()
         time.dif.3 = difftime(sys.time.step3.1, sys.time.step3.0)
