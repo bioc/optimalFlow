@@ -106,6 +106,7 @@ optimalFlowClassification <- function(X, database, templates, consensus.method =
   data.elliptical = data.elliptical[!is.na(data.elliptical)]
 
   similarity.distances = optimalFlow::costWasserMatchingEllipse(data.elliptical, templates$templates, equal.weights.template)
+  print("Similarity distances to templates:")
   print(similarity.distances)
   assigned.template.index = which.min(similarity.distances)
   assigned.template = templates$templates[[assigned.template.index]]

@@ -2,7 +2,7 @@ qdaClassification = function(normal, data){
   data = as.matrix(data)
   media = matrix(normal$mean, nrow = 1, ncol = length(normal$mean))
   inv = tryCatch(solve(normal$cov), error = function(x) NA)
-  if(is.na(inv)){
+  if(is.na(inv[1])){
     return(inv)
   } else{
     weight = normal$weight

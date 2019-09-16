@@ -8,12 +8,12 @@ costWasserMatchingEllipse = function(test.cytometry, training.cytometries, equal
     names.b = unlist(lapply(training.cytometry, function(x) x$type))
     weights.a = unlist(lapply(test.cytometry, function(x) x$weight))
     if(abs(1-sum(weights.a)) >10^(-5)){
-      message("Pesos no normalizados. Procediendo a la nor,alizacion de los pesos.")
+      message("Weights do not add to 1. A normalization will be applied.")
       weights.a = weights.a/sum(weights.a)
     }
     weights.b = unlist(lapply(training.cytometry, function(x) x$weight))
     if(abs(1-sum(weights.b)) >10^(-5)){
-      message("Pesos no normalizados. Procediendo a la nor,alizacion de los pesos.")
+      message("Weights do not add to 1. A normalization will be applied.")
       weights.b = weights.a/sum(weights.a)
     }
 

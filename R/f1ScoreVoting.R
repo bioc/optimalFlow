@@ -52,11 +52,11 @@ f1ScoreVoting = function(voting, clustering, cytometry, nivel_sup, noise.cells){
   for (j in names(voting)){
     t = t + 1
     if (correspondance[t] == "noise"){
-      aciertos[t] = sum(cytometry[, dim.cyto][clustering == j] %in%
-                          noise.cells)/length(cytometry[, dim.cyto][clustering == j])
+      aciertos[t] = sum(dplyr::pull(cytometry, dim.cyto)[clustering == j] %in%
+                          noise.cells)/length(dplyr::pull(cytometry, dim.cyto)[clustering == j])
     } else{
-      aciertos[t] = sum(cytometry[, dim.cyto][clustering == j] %in%
-                          correspondance[t])/length(cytometry[, dim.cyto][clustering == j])
+      aciertos[t] = sum(dplyr::pull(cytometry, dim.cyto)[clustering == j] %in%
+                          correspondance[t])/length(dplyr::pull(cytometry, dim.cyto)[clustering == j])
     }
   }
 
@@ -67,18 +67,19 @@ f1ScoreVoting = function(voting, clustering, cytometry, nivel_sup, noise.cells){
     t = t + 1
     if (i == "noise"){
       p[t] = sum((aciertos*table(clustering))[correspondance %in% "noise"])/sum(table(clustering)[correspondance %in% "noise"])
-      r[t] = sum((aciertos*table(clustering))[correspondance %in% "noise"])/sum(cytometry[, dim.cyto] %in%
+      r[t] = sum((aciertos*table(clustering))[correspondance %in% "noise"])/sum(dplyr::pull(cytometry, dim.cyto) %in%
                                                                                   noise.cells)
     } else{
       p[t] = sum((aciertos*table(clustering))[correspondance %in% i])/sum(table(clustering)[correspondance %in% i])
-      r[t] = sum((aciertos*table(clustering))[correspondance %in% i])/sum(cytometry[, dim.cyto] %in% i)
+      r[t] = sum((aciertos*table(clustering))[correspondance %in% i])/sum(dplyr::pull(cytometry, dim.cyto) %in% i)
     }
   }
   F1_score = 2*p*r/(p+r)
   F1_score_wass = rbind(F1_score, p, r)
-  cels_original = names(table(cytometry[, dim.cyto]))
+  cels_original = names(table(dplyr::pull(cytometry, dim.cyto)))
   cel_no_encontradas = cels_original[!(cels_original %in% correspondance) & !(cels_original %in% noise.cells)]
   F1_score_wass = cbind(F1_score_wass, matrix(0,ncol = length(cel_no_encontradas), nrow = 3))
   colnames(F1_score_wass) = c(unique(correspondance), cel_no_encontradas)
+  rownames(F1_score_wass) = c("F1-score", "Precision", "Recall")
   return(list(F1_score = F1_score_wass, correspondance = correspondance))
 }

@@ -26,5 +26,6 @@ f1Score = function(clustering, cytometry, noise.cells){
   cel_no_encontradas = cels_original[!(cels_original %in% prediction_qda_19_con_18) & !(cels_original %in% noise.cells)]
   F1_score_tot = cbind(F1_score_tot, matrix(0, ncol = length(cel_no_encontradas), nrow = 3))
   colnames(F1_score_tot) = c(lev_qda, cel_no_encontradas)
+  rownames(F1_score_tot) = c("F1-score", "Precision", "Recall")
   return(F1_score_tot)
 }
