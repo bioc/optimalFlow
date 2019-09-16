@@ -1,0 +1,347 @@
+---
+title: "optimalFlow: optimal-transport approach to Flow Cytometry analysis"
+author: Hristo Inouzhe; hristo.inouzhe@gmail.com
+date: 12.09.2019
+output: 
+    BiocStyle::html_document
+bibliography: bibliography_cytometries.bib
+vignette: >
+    %\VignetteIndexEntry{optimalFlow: optimal-transport approach to Flow Cytometry analysis}
+    %\VignetteEngine{knitr::knitr}
+references:
+- id: optimalFlow
+  title: 'optimalFlow: optimal-transport approach to Flow Cytometry analysis'
+  author:
+  - family: del Barrio
+    given: Eustasio
+  - family: Inouzhe
+    given: Hristo
+  - family: Loubes
+    given: Jean-Michel
+  - family: Mayo-Iscar
+    given: Agustin
+  - family: Matran
+    given: Carlos
+  URL: 'https://arxiv.org/abs/1907.08006'
+  type: article-journal
+  issued:
+    year: 2019
+    month: 7
+- id: tclust
+  title: A general trimming approach to robust cluster analysis.
+  author:
+  - family: Garcia-Escudero
+    given: Luis-Angel
+  - family: Gordaliza
+    given: Alfonso
+  - family: Matran
+    given: Carlos
+  - family: Mayo-Iscar
+    given: Agustin
+  container-title: The Annals of Statistics
+  volume: 36
+  page: 1324-1345
+  type: article-journal
+  issued:
+    year: 2008
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduciton
+
+*optimalFlow* is a package dedicated to applying optimal-transport techniques to supervised flow cytometry gating based on the results in @optimalFlow.
+
+We provide novel methods for grouping (clustering) gated cytometries. By clustering a set of cytometries we are producing groups (clusters) of cytometries that have lower variability than the whole collection.  This in turn allows to improve greatly the performance of any supervised learning procedure. Once we have a partition (clustering) of a collection of cytometries, we provide several methods for obtaining an artificial cytometry (prototype, template) that represents in some optimal way the cytometries in each respective group. These prototypes can be used, among other things, for matching populations between different cytometries. Even more, a procedure able to group similar cytometries could help to detect individuals with a common particular condition, for instance some kind of disease.
+
+*optimalFlowTemplates* is our procedure for clustering cytometries and obtaining templates. It is based on recent developments in the field of optimal transport such as a *similarity distance* between clusterings and a *barycenter* (Frechet mean) and *k-barycenters* of probability distributions.
+
+We introduce *optimalFlowClassification*, a supervised classification tool for the case when a database of gated cytometries is available. The procedure uses the prototypes obtained by *optimalFlowTemplates* on the database. These are used to initialize *tclust*, a robust extension of k-means that allows for non-spherical shapes, for gating a new cytometry (see @tclust). By using a similarity distance between the best clustering obtained by *tclust* and the artificial cytometries provided by *optimalFlowTemplates* we can assign the new cytometry to the most similar template (and the respective group of cytometries). We provide several options of how to assign cell types to the new cytometry using the most relevant information, represented by the assigned template and the respective cluster of cytometries.
+
+# Installation
+
+Installation procedure:
+
+```{r ej00, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("optimalFLow")
+```
+
+# optimalFlowTemplates
+
+```{r ej0, echo = TRUE, message = FALSE}
+library(optimalFlowData)
+library(optimalFlow)
+library(ellipse)
+```
+We start by providing a database of gated cytoimetries. In this case we have 15 cytometries with 4 cell types each. 
+```{r ej1, echo = TRUE}
+database = list(
+  Cytometry2[which(Cytometry2$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry3[which(Cytometry3$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry4[which(Cytometry4$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry5[which(Cytometry5$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry7[which(Cytometry7$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry8[which(Cytometry8$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry9[which(Cytometry9$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry12[which(Cytometry12$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry13[which(Cytometry13$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry14[which(Cytometry14$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry15[which(Cytometry15$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry16[which(Cytometry16$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry17[which(Cytometry17$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry19[which(Cytometry19$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry21[which(Cytometry21$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),]
+  )
+```
+Then we apply optimal flow templates to obtain a clustering of the database and a template cytometry of each group. In this case we are looking for 5 distinct groups of cytometries.
+```{r ej111, echo = TRUE}
+templates.optimalFlow =
+  optimalFlowTemplates(
+    database = database, templates.number = 5, cl.paral = 1
+    )
+```
+A two dimensional representation of the database, where we know every cell type, and consider every cytometry as a mixture of multivariate Gaussian ditributions is presented.
+```{r ej2, echo = TRUE}
+plot(
+  ellipse(
+    templates.optimalFlow$database.elliptical[[3]][[1]]$cov[c(4,3),][,c(4,3)],
+    centre = templates.optimalFlow$database.elliptical[[3]][[1]]$mean[c(4,3)]
+    ),
+  xlim = c(0,8000), ylim =c(0,8000), col = 1, type = "l",
+  xlab = names(Cytometry1)[4], ylab = names(Cytometry1)[3], asp = 1
+  )
+for (j in 2:4){
+  lines(
+    ellipse(
+      templates.optimalFlow$database.elliptical[[3]][[j]]$cov[c(4,3),][,c(4,3)],
+      centre = templates.optimalFlow$database.elliptical[[3]][[j]]$mean[c(4,3)]
+      ),
+    col = j
+    )
+}
+
+for (i in c(4:6,12)){
+  for (j in 1:4){
+    lines(
+      ellipse(
+        templates.optimalFlow$database.elliptical[[i]][[j]]$cov[c(4,3),][,c(4,3)],
+        centre = templates.optimalFlow$database.elliptical[[i]][[j]]$mean[c(4,3)]
+        ),
+      col = j
+      )
+  }
+}
+```
+A three dimensional plot of the same case is provided as a static image.
+![Figure 1: pooling database](database_pooling.png)
+The 2d plot of a consensus cytometry, a template, of one of the groups is the following. 
+```{r ej3, echo = TRUE}
+plot(
+  ellipse(
+    templates.optimalFlow$templates[[3]][[1]]$cov[c(4,3),][,c(4,3)],
+    centre = templates.optimalFlow$templates[[3]][[1]]$mean[c(4,3)]
+    ),
+  xlim = c(0,8000), ylim =c(0,8000), col = 1, type = "l",
+  xlab = names(Cytometry1)[4], ylab = names(Cytometry1)[3], asp = 1
+  )
+for (j in 2:4){
+  lines(
+    ellipse(
+      templates.optimalFlow$templates[[3]][[j]]$cov[c(4,3),][,c(4,3)],
+      centre = templates.optimalFlow$templates[[3]][[j]]$mean[c(4,3)]
+      ),
+    col = j
+    )
+}
+```
+A three dimensional plot as a static image follows. ![cosa](template_pooling.png)
+It is clear that the prototype cytometry represents well the geometric information of the respective group of cytometries. 
+
+However, sometimes gatings of cytometries are available but without the identification of each cell type. In that case a 2d representation of a group of cytometries would be the following.
+```{r ej4, echo = TRUE}
+plot(
+  ellipse(
+    templates.optimalFlow$database.elliptical[[3]][[1]]$cov[c(4,3),][,c(4,3)],
+    centre = templates.optimalFlow$database.elliptical[[3]][[1]]$mean[c(4,3)]
+    ),
+  xlim = c(0,8000), ylim =c(0,8000), col = 1, type = "l",
+  xlab = names(Cytometry1)[4], ylab = names(Cytometry1)[3], asp = 1
+  )
+for (j in 2:4){
+  lines(
+    ellipse(
+      templates.optimalFlow$database.elliptical[[3]][[j]]$cov[c(4,3),][,c(4,3)],
+      centre = templates.optimalFlow$database.elliptical[[3]][[j]]$mean[c(4,3)]
+      ),
+    col = 1
+    )
+}
+
+for (i in c(4:6,12)){
+  for (j in 1:4){
+    lines(
+      ellipse(
+        templates.optimalFlow$database.elliptical[[i]][[j]]$cov[c(4,3),][,c(4,3)],
+        centre = templates.optimalFlow$database.elliptical[[i]][[j]]$mean[c(4,3)]
+        ),
+      col = 1
+      )
+  }
+}
+```
+With the respective 3d static image. ![Figure 2: normal database](database_normal.png)
+
+In this situation, it is advisable to use some unsupervised procedure to obtain the consensus element (the prototype cytometry). This can be achieved using *otpimalFlowTemplates* as follows.
+```{r ej5, echo = TRUE}
+templates.optimalFlow.barycenter = 
+  optimalFlowTemplates(
+    database = database, templates.number = 5, consensus.method = "k-barycenter",
+    barycenters.number = 4, bar.repetitions = 10, alpha.bar = 0.05, cl.paral = 1
+    )
+templates.optimalFlow.hdbscan = 
+  optimalFlowTemplates(
+    database = database, templates.number = 5, consensus.method = "hierarchical",
+    cl.paral = 1
+    )
+```
+A 2d plot of a prototype cytometry is provided, where colors represent different groups (but not a certain cell type).
+```{r ej6, echo = TRUE}
+plot(
+  ellipse(
+    templates.optimalFlow.barycenter$templates[[3]][[1]]$cov[c(4,3),][,c(4,3)],
+    centre = templates.optimalFlow.barycenter$templates[[3]][[1]]$mean[c(4,3)]
+    ),
+  xlim = c(0,8000), ylim =c(0,8000), col = 1, type = "l",
+  xlab = names(Cytometry1)[4], ylab = names(Cytometry1)[3], asp = 1
+  )
+for (j in 2:4){
+  lines(
+    ellipse(
+      templates.optimalFlow.barycenter$templates[[3]][[j]]$cov[c(4,3),][,c(4,3)],
+      centre = templates.optimalFlow.barycenter$templates[[3]][[j]]$mean[c(4,3)]
+      ),
+    col = j
+    )
+}
+```
+![cosa](template_barycenter.png)
+
+We notice that when using consensus.method = "hierarchical" we do not need to specify the number of clusters for the prototype cytometry. In that fashion we obtain the following consensus element.
+```{r ej7, echo=TRUE}
+plot(
+  ellipse(
+    templates.optimalFlow.hdbscan$templates[[3]][[1]]$cov[c(4,3),][,c(4,3)],
+    centre = templates.optimalFlow.hdbscan$templates[[3]][[1]]$mean[c(4,3)]
+    ),
+  xlim = c(0,8000), ylim =c(0,8000), col = 1, type = "l",
+  xlab = names(Cytometry1)[4], ylab = names(Cytometry1)[3], asp = 1
+  )
+for (j in 2:4){
+  lines(
+    ellipse(
+      templates.optimalFlow.hdbscan$templates[[3]][[j]]$cov[c(4,3),][,c(4,3)],
+      centre = templates.optimalFlow.hdbscan$templates[[3]][[j]]$mean[c(4,3)]
+      ),
+    col = j
+    )
+}
+```
+![cosa](template_hdbscan.png)
+
+A totally unsupervised way of obtaining groups and templates is given next.
+
+```{r ej77, echo = TRUE}
+templates.optimalFlow.unsup =
+  optimalFlowTemplates(
+    database = database, hclust.method = "hdbscan", cl.paral = 1, consensus.method = "hierarchical"
+    )
+print(templates.optimalFlow.unsup$clustering)
+print(templates.optimalFlow$clustering)
+```
+
+# optimalFlowClassification
+Once we have a grouped database with prototype cytometries for each group we can apply different supervised classifications procedures to classify a new ungated cytometry.
+
+First we start with quadratic discriminant analysis using the most similar template. We use the different groupings obtained in the previous section. We also show the F1-score for every group as a criteria for success. An F1-score close to 1 means a very good performance. 
+```{r ej8, echo = TRUE}
+classification.optimalFlow =
+  optimalFlowClassification(
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0) > 0), 1:10],
+    database, templates.optimalFlow, consensus.method = "pooling", cl.paral = 1)
+
+scoreF1.optimalFlow = optimalFlow::f1Score(classification.optimalFlow$cluster,
+Cytometry1[which(match(Cytometry1$`Population ID (name)`,
+c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),], noise.types)
+print(scoreF1.optimalFlow)
+```
+```{r ej9, echo = TRUE}
+classification.optimalFlow.barycenter =
+  optimalFlowClassification(
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0) > 0), 1:10],
+    database, templates.optimalFlow.barycenter, consensus.method = "k-barycenter", cl.paral = 1
+    )
+
+scoreF1.optimalFlow.barycenter = 
+  f1ScoreVoting(
+    classification.optimalFlow.barycenter$cluster.vote, classification.optimalFlow.barycenter$cluster,
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+    1.01, noise.types
+    )
+print(scoreF1.optimalFlow.barycenter$F1_score)
+```
+```{r ej10, echo = TRUE}
+classification.optimalFlow.hdbscan =
+  optimalFlowClassification(
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0) > 0), 1:10],
+    database, templates.optimalFlow.hdbscan, consensus.method = "hierarchical", cl.paral = 1
+    )
+
+scoreF1.optimalFlow.hdbscan =
+  f1ScoreVoting(
+    classification.optimalFlow.hdbscan$cluster.vote, classification.optimalFlow.hdbscan$cluster,
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+    1.01, noise.types
+  )
+print(scoreF1.optimalFlow.hdbscan$F1_score)
+```
+Here we use label-transfer, as explained in @optimalFlow, for classification.
+```{r ej11, echo = TRUE}
+classification.optimalFlow.2 =
+  optimalFlowClassification(
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0) > 0), 1:10],
+    database, templates.optimalFlow, consensus.method = "pooling", classif.method = "matching",
+    cost.function = "ellipses", cl.paral = 1
+    )
+scoreF1.optimalFlow.2 =
+  f1ScoreVoting(
+    classification.optimalFlow.2$cluster.vote, classification.optimalFlow.2$cluster,
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+    1.01, noise.types
+    )
+print(scoreF1.optimalFlow.2$F1_score)
+```
+Also, classical techniques as random forest are available.
+```{r ej12, echo = TRUE}
+classification.optimalFlow.3 =
+  optimalFlowClassification(
+    Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0) > 0), 1:10],
+    database, templates.optimalFlow, consensus.method = "pooling",
+    classif.method = "random forest", cl.paral = 1
+    )
+scoreF1.optimalFlow.3 =
+  optimalFlow::f1Score(
+    classification.optimalFlow.3$cluster, Cytometry1[which(match(Cytometry1$`Population ID (name)`, c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-"), nomatch = 0)>0),],
+    noise.types
+    )
+print(scoreF1.optimalFlow.3)
+```
+As we can see from the tables of F1-scores the different procedures work quite well.
+
+# References

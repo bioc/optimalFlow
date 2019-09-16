@@ -24,4 +24,6 @@ Imports:
   graphics,
   doParallel,
   stats
+Suggests: knitr, BiocStyle, ellipse, rgl
+VignetteBuilder: knitr
 biocViews: Software, FlowCytometry, Technology
