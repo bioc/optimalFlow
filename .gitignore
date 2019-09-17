@@ -7,3 +7,5 @@ optimalFlow.Rproj
 .git
 data
 optimalFlow.Rcheck
+.gitignore
+.Rbuildignore
