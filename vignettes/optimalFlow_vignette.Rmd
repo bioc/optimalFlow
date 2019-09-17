@@ -1,13 +1,16 @@
 ---
 title: "optimalFlow: optimal-transport approach to Flow Cytometry analysis"
-author: Hristo Inouzhe; hristo.inouzhe@gmail.com
-date: 12.09.2019
+author:
+- name: Hristo Inouzhe
+  affiliation: Universidad de Valladolid, Spain
+  email: hristo.inouzhe@gmail.com
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
     BiocStyle::html_document
-bibliography: bibliography_cytometries.bib
 vignette: >
     %\VignetteIndexEntry{optimalFlow: optimal-transport approach to Flow Cytometry analysis}
-    %\VignetteEngine{knitr::knitr}
+    %\VignetteEngine{knitr::rmarkdown}
+    \usepackage[utf8]{inputenc}
 references:
 - id: optimalFlow
   title: 'optimalFlow: optimal-transport approach to Flow Cytometry analysis'
@@ -52,7 +55,7 @@ references:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduciton
+# Introduction
 
 *optimalFlow* is a package dedicated to applying optimal-transport techniques to supervised flow cytometry gating based on the results in @optimalFlow.
 
@@ -83,21 +86,36 @@ library(ellipse)
 We start by providing a database of gated cytoimetries. In this case we have 15 cytometries with 4 cell types each. 
 ```{r ej1, echo = TRUE}
 database = list(
-  Cytometry2[which(Cytometry2$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry3[which(Cytometry3$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry4[which(Cytometry4$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry5[which(Cytometry5$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry7[which(Cytometry7$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry8[which(Cytometry8$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry9[which(Cytometry9$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry12[which(Cytometry12$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry13[which(Cytometry13$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry14[which(Cytometry14$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry15[which(Cytometry15$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry16[which(Cytometry16$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry17[which(Cytometry17$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry19[which(Cytometry19$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
-  Cytometry21[which(Cytometry21$`Population ID (name)` %in% c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),]
+  Cytometry2[which(Cytometry2$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry3[which(Cytometry3$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry4[which(Cytometry4$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry5[which(Cytometry5$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry7[which(Cytometry7$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry8[which(Cytometry8$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry9[which(Cytometry9$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry12[which(Cytometry12$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry13[which(Cytometry13$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry14[which(Cytometry14$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry15[which(Cytometry15$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry16[which(Cytometry16$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry17[which(Cytometry17$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry19[which(Cytometry19$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),],
+  Cytometry21[which(Cytometry21$`Population ID (name)` %in% 
+                   c("Monocytes", "CD4+CD8-", "Mature SIg Kappa", "TCRgd-")),]
   )
 ```
 Then we apply optimal flow templates to obtain a clustering of the database and a template cytometry of each group. In this case we are looking for 5 distinct groups of cytometries.
@@ -140,7 +158,9 @@ for (i in c(4:6,12)){
 }
 ```
 A three dimensional plot of the same case is provided as a static image.
+
 ![Figure 1: pooling database](database_pooling.png)
+
 The 2d plot of a consensus cytometry, a template, of one of the groups is the following. 
 ```{r ej3, echo = TRUE}
 plot(
@@ -161,7 +181,10 @@ for (j in 2:4){
     )
 }
 ```
-A three dimensional plot as a static image follows. ![cosa](template_pooling.png)
+A three dimensional plot as a static image follows.
+
+![cosa](template_pooling.png)
+
 It is clear that the prototype cytometry represents well the geometric information of the respective group of cytometries. 
 
 However, sometimes gatings of cytometries are available but without the identification of each cell type. In that case a 2d representation of a group of cytometries would be the following.
@@ -196,7 +219,9 @@ for (i in c(4:6,12)){
   }
 }
 ```
-With the respective 3d static image. ![Figure 2: normal database](database_normal.png)
+With the respective 3d static image.
+
+![Figure 2: normal database](database_normal.png)
 
 In this situation, it is advisable to use some unsupervised procedure to obtain the consensus element (the prototype cytometry). This can be achieved using *otpimalFlowTemplates* as follows.
 ```{r ej5, echo = TRUE}
