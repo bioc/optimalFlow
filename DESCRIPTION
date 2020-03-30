@@ -22,7 +22,11 @@ Imports:
   foreach,
   graphics,
   doParallel,
-  stats
-Suggests: knitr, BiocStyle, ellipse, rmarkdown
+  stats,
+  flowMeans,
+  rgl,
+  ellipse
+Suggests: knitr, BiocStyle, rmarkdown, magick
 VignetteBuilder: knitr
 biocViews: Software, FlowCytometry, Technology
+RoxygenNote: 7.1.0
