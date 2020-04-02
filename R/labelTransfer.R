@@ -15,8 +15,6 @@
 #' test.labels <- c(rep('a', 50), rep('b', 50))
 #' labelTransfer(data.example, data.example[, 1:2], test.labels)
 #' @importFrom stats rnorm
-#' @importFrom base data.frame
-#' @importFrom base rep
 #' @export
 #'
 labelTransfer <- function(training.cytometry, test.cytometry, test.partition, equal.weights = FALSE) {
