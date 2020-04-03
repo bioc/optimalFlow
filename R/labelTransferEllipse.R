@@ -10,13 +10,11 @@
 #' @return A fuzzy relabeling consistent of a transportation plan.
 #'
 #' @examples
-#' \dontrun{
 #' partition1 <- list(list(mean = c(1, 1), cov = diag(1, 2), weight = 0.5, type = '1'),
 #'                   list(mean = c(-1, -1), cov = diag(1, 2), weight = 0.5, type = '2'))
 #' partition2 <- list(list(mean = c(1, 1), cov = diag(1, 2), weight = 0.5, type = 'a'),
 #'                   list(mean = c(-1, -1), cov = diag(1, 2), weight = 0.5, type = 'b'))
 #' labelTransferEllipse(1, partition2, partition1)
-#' }
 #' @references E del Barrio, H Inouzhe, JM Loubes, C Matran and A Mayo-Iscar. (2019) optimalFlow: Optimal-transport approach to flow cytometry gating and population matching. arXiv:1907.08006
 #'
 #' @export
