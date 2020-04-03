@@ -10,12 +10,13 @@
 #' @return A fuzzy relabeling consistent of a transportation plan.
 #'
 #' @examples
+#' \dontrun{
 #' partition1 <- list(list(mean = c(1, 1), cov = diag(1, 2), weight = 0.5, type = '1'),
 #'                   list(mean = c(-1, -1), cov = diag(1, 2), weight = 0.5, type = '2'))
 #' partition2 <- list(list(mean = c(1, 1), cov = diag(1, 2), weight = 0.5, type = 'a'),
 #'                   list(mean = c(-1, -1), cov = diag(1, 2), weight = 0.5, type = 'b'))
 #' labelTransferEllipse(1, partition2, partition1)
-#'
+#' }
 #' @references E del Barrio, H Inouzhe, JM Loubes, C Matran and A Mayo-Iscar. (2019) optimalFlow: Optimal-transport approach to flow cytometry gating and population matching. arXiv:1907.08006
 #'
 #' @export
@@ -26,13 +27,13 @@ labelTransferEllipse <- function(i, test.cytometry.ellipses, training.cytometrie
     cost.matrix <- array(dim = c(N, M))
     for (j in 1:N) {
         for (i in 1:M) {
-            cost.matrix[j, i] <- w2dist(list(mean = test.cytometry.ellipses[[i]]$mean, cov = test.cytometry.ellipses[[i]]$cov), 
+            cost.matrix[j, i] <- w2dist(list(mean = test.cytometry.ellipses[[i]]$mean, cov = test.cytometry.ellipses[[i]]$cov),
                 list(mean = training.cytometries.barycenter[[j]]$mean, cov = training.cytometries.barycenter[[j]]$cov))
         }
     }
     names.a <- unlist(lapply(training.cytometries.barycenter, function(x) x$type))
     names.b <- unlist(lapply(test.cytometry.ellipses, function(x) x$type))
-    
+
     if (equal.weights) {
         A <- matrix(1/N, nrow = 1, ncol = N)
         B <- matrix(1/M, nrow = 1, ncol = M)
