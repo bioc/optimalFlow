@@ -20,12 +20,13 @@
 #' }
 #'
 #' @examples
+#' \dontrun{
 #' data.example <- data.frame(v1 = c(rnorm(50, 2, 1), rnorm(50, -2, 1)),
 #'                           v2 = c(rnorm(50, 2, 1), rnorm(50, -2, 1)), id = c(rep(0, 50), rep(1, 50)))
 #' test.labels <- c(rep('a', 50), rep('b', 50))
 #' voteLabelTransfer(test.partition = test.labels, test.cytometry = data.example[, 1:2],
 #'                   training.cytometries = list(data.example), op.syst = .Platform$OS.type)$final.vote[[1]]
-#'
+#' }
 #' @export
 #'
 voteLabelTransfer <- function(type = "points", test.partition, test.cytometry, test.partition.ellipse, training.cytometries, training.cytometries.barycenter,
