@@ -10,7 +10,7 @@
 #' @return A fuzzy relabeling consistent of a transportation plan.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data.example <- data.frame(v1 = c(rnorm(50, 2, 1), rnorm(50, -2, 1)),
 #'                           v2 = c(rnorm(50, 2, 1), rnorm(50, -2, 1)), id = c(rep(0, 50), rep(1, 50)))
 #' test.labels <- c(rep('a', 50), rep('b', 50))
