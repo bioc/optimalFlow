@@ -57,8 +57,9 @@
 #' @importFrom stats hclust
 #' @importFrom stats runif
 #' @importFrom stats predict
-#' @import Rfast
-#' @import flowMeans
+#' @importFrom Rfast dista
+#' @importFrom Rfast rowMaxs
+#' @importFrom flowMeans flowMeans
 #' @export
 #'
 optimalFlowClassification <- function (X, database, templates, consensus.method = "pooling", cov.estimation = "standard",
