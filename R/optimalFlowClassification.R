@@ -57,6 +57,7 @@
 #' @importFrom stats hclust
 #' @importFrom stats runif
 #' @importFrom stats predict
+#' @import Rfast
 #' @import flowMeans
 #' @export
 #'
