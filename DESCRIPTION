@@ -1,7 +1,7 @@
 Package: optimalFlow
 Type: Package
 Title: optimalFlow
-Version: 0.99.9
+Version: 0.99.10
 Author: Hristo Inouzhe <hristo.inouzhe@gmail.com>
 Maintainer: Hristo Inouzhe <hristo.inouzhe@gmail.com>
 Description: Optimal-transport techniques applied to supervised flow cytometry gating.
