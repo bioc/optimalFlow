@@ -191,7 +191,7 @@ We do the same for the density based hierarchical clustering.
 cytoPlot(templates.optimalFlow.hdbscan$templates[[3]], dimensions = c(4,3), xlim = c(0, 8000), ylim = c(0, 8000), xlab = "", ylab = "")
 ```
 ```{r ej72, eval = FALSE}
-cytoPlot3d(templates.optimalFlow.hdbscan$templates[[3]], dimensions = c(4, 3, 9), xlim = c(0, 8000), ylim = c(0, 8000))
+cytoPlot3d(templates.optimalFlow.hdbscan$templates[[3]], dimensions = c(4, 3, 9), xlim = c(0, 8000), ylim = c(0, 8000), zlim = c(0, 8000))
 ```
 ![cosa](template_hdbscan.png)
 From the visual representations of above we see that the different methods for obtaining a prototype cytometry for the cluster of cytometries labelled as 3 are returning similar results. Even more, results do seem to summarize in a reasonable way the information contained in the cytometries of cluster 3. Hence, doing some 2 or 3-dimensional visual inspection of the results is advisable for the user and it allows for an informed inspection of our procedures.
