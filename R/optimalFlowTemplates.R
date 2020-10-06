@@ -139,7 +139,7 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
     } else {
         n.cores <- cl.paral
     }
-    cl <- parallel::makePSOCKcluster(n.cores)
+    cl <- parallel::makePSOCKcluster(n.cores, setup_strategy = "sequential")
     doParallel::registerDoParallel(cl)
     transport_costs_list <- foreach::foreach(j = 1:(dim.cytos - 1)) %:% foreach::foreach(i = (j + 1):dim.cytos) %dopar% {
         optimalFlow::wasserCostFunction(j, i, database.elliptical, equal.weights.template)
@@ -249,7 +249,7 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
                     } else {
                       n.cores <- cl.paral
                     }
-                    cl <- parallel::makePSOCKcluster(n.cores)
+                    cl <- parallel::makePSOCKcluster(n.cores, setup_strategy = "sequential")
                     doParallel::registerDoParallel(cl)
                     wasser.cost.list <- foreach::foreach(k = 1:(dim.cytos - 1)) %:% foreach::foreach(l = (k + 1):dim.cytos) %dopar%
                       {
@@ -263,7 +263,7 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
                   if (length(which(template.partition.labels == 0)) > 0) {
                     template.partition.labels <- template.partition.labels[-1]
                   }
-                  cl <- parallel::makePSOCKcluster(cl.paral)
+                  cl <- parallel::makePSOCKcluster(cl.paral, setup_strategy = "sequential")
                   doParallel::registerDoParallel(cl)
                   template <- foreach::foreach(k = template.partition.labels) %dopar% {
                     pooled.elements <- pooled.clustered.cytometries[[as.character(i)]][template.partition == k]
@@ -301,7 +301,7 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
                     if (length(which(template.partition.labels == 0)) > 0) {
                       template.partition.labels <- template.partition.labels[-1]
                     }
-                    cl <- parallel::makePSOCKcluster(cl.paral)
+                    cl <- parallel::makePSOCKcluster(cl.paral, setup_strategy = "sequential")
                     doParallel::registerDoParallel(cl)
                     template <- foreach::foreach(k = template.partition.labels) %dopar% {
                       pooled.elements <- pooled.clustered.cytometries[[as.character(i)]][template.partition == k]
@@ -345,7 +345,7 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
                       if (is.na(barycenters.number)) {
                         barycenters.number.0 <- ceiling(mean(unlist(lapply(which(cytos.cluster == i), function(ii) length(database.elliptical[[ii]])))))
                         barycenters.number.0 <- round((1 + 0.1) * barycenters.number.0)
-                        cl <- parallel::makePSOCKcluster(n.cores)
+                        cl <- parallel::makePSOCKcluster(n.cores, setup_strategy = "sequential")
                         k.barycenter.list <- parallel::parLapply(cl, 1:bar.repetitions, optimalFlow:::wassersteinKBarycenter, k = barycenters.number.0,
                           alpha = alpha.bar, initialization = "plus-plus", pooled.clustered.cytometries[[as.character(i)]])
                         parallel::stopCluster(cl)
@@ -353,7 +353,7 @@ optimalFlowTemplates <- function(database, database.names = NULL, cov.estimation
                         if (barycenters.number > length(pooled.clustered.cytometries[[as.character(i)]])) {
                           stop(paste("barycenters.number, currently ", barycenters.number, ", should be between 1 and ", length(pooled.clustered.cytometries[[as.character(i)]]), " (the total number of elements in the group).", sep = ""))
                         }
-                        cl <- parallel::makePSOCKcluster(n.cores)
+                        cl <- parallel::makePSOCKcluster(n.cores, setup_strategy = "sequential")
                         k.barycenter.list <- parallel::parLapply(cl, 1:bar.repetitions, optimalFlow:::wassersteinKBarycenter, k = barycenters.number,
                           alpha = alpha.bar, initialization = "plus-plus", pooled.clustered.cytometries[[as.character(i)]])
                         parallel::stopCluster(cl)
