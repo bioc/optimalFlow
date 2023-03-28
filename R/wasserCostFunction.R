@@ -42,15 +42,15 @@ wasserCostFunction <- function(j, i, cytometries, equal.weights = FALSE) {
     }
 
     if (equal.weights) {
-        a <- matrix(1/length(names_a), nrow = 1, ncol = length(names_a))
-        b <- matrix(1/length(names_b), nrow = 1, ncol = length(names_b))
-        colnames(a) <- names_a
-        colnames(b) <- names_b
+        a <- rep(1/length(names_a), length(names_a))
+        b <- rep(1/length(names_b), length(names_b))
+        names(a) <- names_a
+        names(b) <- names_b
     } else {
-        a <- matrix(weights_a, nrow = 1, ncol = length(names_a))
-        b <- matrix(weights_b, nrow = 1, ncol = length(names_b))
-        colnames(a) <- names_a
-        colnames(b) <- names_b
+        a <- weights_a
+        b <- weights_b
+        names(a) <- names_a
+        names(b) <- names_b
     }
 
     nn <- length(a)

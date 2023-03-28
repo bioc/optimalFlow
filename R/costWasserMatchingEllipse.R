@@ -39,15 +39,15 @@ costWasserMatchingEllipse <- function(test.cytometry, training.cytometries, equa
         }
 
         if (equal.weights) {
-            a <- matrix(1/length(names.a), nrow = 1, ncol = length(names.a))
-            b <- matrix(1/length(names.b), nrow = 1, ncol = length(names.b))
-            colnames(a) <- names.a
-            colnames(b) <- names.b
+            a <- rep(1/length(names.a), length(names.a))
+            b <- rep(1/length(names.b), length(names.b))
+            names(a) <- names.a
+            names(b) <- names.b
         } else {
-            a <- matrix(weights.a, nrow = 1, ncol = length(names.a))
-            b <- matrix(weights.b, nrow = 1, ncol = length(names.b))
-            colnames(a) <- names.a
-            colnames(b) <- names.b
+            a <- weights.a
+            b <- weights.b
+            names(a) <- names.a
+            names(b) <- names.b
         }
 
         nn <- length(a)

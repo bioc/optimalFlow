@@ -33,8 +33,8 @@ labelTransferEllipse <- function(i, test.cytometry.ellipses, training.cytometrie
     names.b <- unlist(lapply(test.cytometry.ellipses, function(x) x$type))
 
     if (equal.weights) {
-        A <- matrix(1/N, nrow = 1, ncol = N)
-        B <- matrix(1/M, nrow = 1, ncol = M)
+        A <- rep(1/N, N)
+        B <- rep(1/M, M)
         names(A) <- names.a
         names(B) <- names.b
     } else {

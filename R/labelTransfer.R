@@ -58,8 +58,8 @@ labelTransfer <- function(training.cytometry, test.cytometry, test.partition, eq
     }
 
     if (equal.weights) {
-        A <- matrix(1/M, nrow = 1, ncol = M)
-        B <- matrix(1/N, nrow = 1, ncol = N)
+        A <- rep(1/M, M)
+        B <- rep(1/N, N)
         names(A) <- training.cells
         names(B) <- test.cells
 
